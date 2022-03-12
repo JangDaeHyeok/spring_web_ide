@@ -1,0 +1,12 @@
+import java.util.*;
+
+// This class must not be changed or removed
+public class DynamicClass {
+	// use this array
+	final String[] completion = {"josipa", "filipa", "marina", "nikola"};
+	
+	// This method(return type, name, parameters) must not be changed or removed.
+	public static void main(String[] args) {
+		
+	}
+}

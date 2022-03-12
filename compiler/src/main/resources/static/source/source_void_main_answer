@@ -1,0 +1,22 @@
+import java.util.*;
+
+// This class must not be changed or removed
+public class DynamicClass {
+	// use this array
+	private static final String[] completion = {"josipa", "filipa", "marina", "nikola"};
+	
+	// This method(return type, name, parameters) must not be changed or removed.
+	public static void main(String[] args) {
+	    String answer = "";
+	    Map<String, Integer> map = new HashMap<String, Integer>();
+	    
+		for(String player : args) map.put(player, map.getOrDefault(player, 0) + 1);
+		for(String comp : completion) map.put(comp, map.get(comp) - 1);
+		
+		for(String key : map.keySet()) {
+		    if(map.get(key) != 0) answer = key;
+		}
+		
+		System.out.println(answer);
+	}
+}
