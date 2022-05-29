@@ -1,7 +1,7 @@
 // This class must not be changed or removed
 public class DynamicClass {
 	// This method(return type, name, parameters) must not be changed or removed.
-	public byte[] runMethod(byte[] params) throws Exception {
+	public String runMethod(String[] participant, String[] completion) throws Exception {
 		
 	}
 }
