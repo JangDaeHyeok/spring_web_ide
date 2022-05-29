@@ -97,14 +97,23 @@ public class CompileBuilder {
 	}
 	*/
 	
+	/**
+	 * 
+	 * @param obj
+	 * @param params
+	 * @return Map<String, Object>
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, Object> runObject(Object obj, Object[] params) throws Exception {
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		
 		// 실행할 메소드 명
-		String methodName = "main";
-		// 파라미터 타입
-		Class arguments[] = new Class[] {params.getClass()};
+		String methodName = "runMethod";
+		// 파라미터 타입 개수만큼 지정
+		Class arguments[] = new Class[params.length];
+		for(int i = 0; i < params.length; i++)
+			arguments[i] = params[i].getClass();
 		
 		/*
 		 * reflection method의 console output stream을 받아오기 위한 변수
@@ -121,12 +130,13 @@ public class CompileBuilder {
 			System.setErr(new PrintStream(err));
 			
 			// 메소드 timeout을 체크하며 실행(15초 초과 시 강제종료)
-			boolean result = false;
+			Map<String, Object> result = new HashMap<String, Object>();
 			result = MethodExecutation.timeOutCall(obj, methodName, params, arguments);
 			
 			// stream 정보 저장
-			if(result) {
+			if((Boolean) result.get("result")) {
 				returnMap.put("result", ApiResponseResult.SUCEESS.getText());
+				returnMap.put("return", result.get("return"));
 				if(err.toString() != null && !err.toString().equals("")) {
 					returnMap.put("SystemOut", err.toString());
 				}else {
@@ -134,7 +144,11 @@ public class CompileBuilder {
 				}
 			}else {
 				returnMap.put("result", ApiResponseResult.FAIL.getText());
-				returnMap.put("SystemOut", "제한 시간 초과");
+				if(err.toString() != null && !err.toString().equals("")) {
+					returnMap.put("SystemOut", err.toString());
+				}else {
+					returnMap.put("SystemOut", "제한 시간 초과");
+				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

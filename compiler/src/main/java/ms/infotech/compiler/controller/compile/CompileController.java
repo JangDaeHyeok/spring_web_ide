@@ -33,8 +33,12 @@ public class CompileController {
 		
 		// 실행 후 결과 전달 받음
 		long beforeTime = System.currentTimeMillis();
+		
 		// 파라미터
-		String params[] = new String[] {"marina", "josipa", "nikola", "vinko", "filipa"};
+		String participant[] = new String[] {"marina", "josipa", "nikola", "vinko", "filipa"};
+		String completion[] = new String[] {"josipa", "filipa", "marina", "nikola"};
+		Object[] params = {participant, completion};
+		
 		// 코드 실행
 		Map<String, Object> output = builder.runObject(obj, params);
 		long afterTime = System.currentTimeMillis();
@@ -43,6 +47,19 @@ public class CompileController {
 		returnMap.putAll(output);
 		// 소요시간
 		returnMap.put("performance", (afterTime - beforeTime));
+		
+		// s :: 결과 체크 :: //
+		// TODO 상황에 따른 결과 동적 체크 처리 필요
+		try {
+			if(returnMap.get("return") != null && !returnMap.get("return").equals("vinko")) {
+				returnMap.put("result", ApiResponseResult.FAIL.getText());
+				returnMap.put("SystemOut", returnMap.get("SystemOut").toString() + "\r\n결과 기대값과 일치하지 않습니다.");
+			}
+		}catch (Exception e) {
+			returnMap.put("result", ApiResponseResult.FAIL.getText());
+			returnMap.put("SystemOut", returnMap.get("SystemOut").toString() + "예상치 못한 오류로 검사에 실패했습니다.");
+		}
+		// e :: 결과 체크 :: //
 		
 		return returnMap;
 	}

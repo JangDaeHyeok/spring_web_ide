@@ -76,7 +76,7 @@
 			editor.setOptions({ maxLines: 1000 });
 			
 			$.ajax({
-				url: "/static/source/source_void_main",
+				url: "/static/source/source_return_byte_array",
 				success: function(data) {
 					editor.setValue(data, data.length);
 				},
@@ -97,12 +97,12 @@
 					if(data.result == "성공") {
 						$("#output").css("color", "#000");
 						$("#result").css("color", "#000");
-						$("#output").html(data.SystemOut != null ? data.SystemOut.replace(/\n/g, "<br>") : "");
 					}else {
 						$("#output").css("color", "#f00");
 						$("#result").css("color", "#f00");
-						$("#output").html(data.SystemOut.replace(/\n/g, "<br>"));
 					}
+					
+					$("#output").html(data.SystemOut != null ? data.SystemOut.replace(/\n/g, "<br>") : "");
 					$("#performance").text(data.performance);
 					$("#result").text(data.result);
 				},
@@ -119,7 +119,7 @@
 		
 		function show_answer() {
 			$.ajax({
-				url: "/static/source/source_void_main_answer",
+				url: "/static/source/source_return_byte_array_answer",
 				success: function(data) {
 					editor.setValue(data, data.length);
 				},
